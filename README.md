@@ -1,5 +1,5 @@
-# ASSIGNMENT 03
 # ENGR-E 516: Engineering Cloud Computing
+# ASSIGNMENT 03: Dockers and Containers
 
 # Name: Rohan Vasantbhai Darji
 Email: rdarji@iu.edu  
@@ -306,3 +306,71 @@ const randomData = generateRandomData(FILE_SIZE)
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/11.png)
 In the above image, we can see that both the containers are running on the same network `rohan`
+
+## Automating the entire process of creating docker containers and running them
+
+### To automate this process we first create a `docker-compose.yml` file in the root directory
+
+```docker
+version: "3"
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    networks:
+      - rohan
+    volumes:
+      - servervol:/app/serverdata
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - clientvol:/app/clientdata
+    networks:
+      - rohan
+
+volumes:
+  servervol:
+  clientvol:
+
+networks:
+  rohan:
+```
+
+### Running the docker-compose.yml using the command `docker-compose up -d`
+
+![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/12.png)
+
+### Client and Server images created
+
+![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_08.png)
+
+### Client and Server volumes created
+
+![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_09.png)
+
+### Containers created under the assignment_03
+
+![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_10.png)
+
+### Logs of server
+
+![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_11.png)
+
+### Logs of client
+
+![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_12.png)
+
+### Output file `random_sentence.txt` which was sent from server to client stored in servervol
+
+![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_13.png)
+
+### Output file `random_sentence.txt` sent from server to client stored in clientvol
+
+![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_14.png)
+
+# _____________________THE END_____________________
