@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    networks:
+      - rohan
+    volumes:
+      - servervol:/app/serverdata
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - clientvol:/app/clientdata
+    networks:
+      - rohan
+
+volumes:
+  servervol:
+  clientvol:
+
+networks:
+  rohan:
