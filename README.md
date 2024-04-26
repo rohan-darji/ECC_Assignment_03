@@ -305,6 +305,7 @@ const randomData = generateRandomData(FILE_SIZE)
 #### Now to confirm both the containers are running on the same network i.e., `rohan`, we use the command `docker inspect rohan`
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/11.png)
+
 In the above image, we can see that both the containers are running on the same network `rohan`
 
 ## Automating the entire process of creating docker containers and running them
