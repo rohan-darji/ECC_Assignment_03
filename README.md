@@ -289,7 +289,7 @@ Here, we can see that the output file was stored in the servervol and the `rando
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_07.png)
 We can also see the same random sentence stored in the clientvol which is received from the server.
 
-#### To ease the verify process of the output file sent from server to client, I used the random sentence instead of the random data of 1kb. But we can also perform the same transfer of file from server to client using the random data of 1kd by usin gthe following function in the `server.js`.
+#### To ease the verify process of the output file sent from server to client, I used the random sentence instead of the random data of 1kb. But we can also perform the same transfer of file from server to client using the random data of 1kd by using the following function in the `server.js`.
 
 ```jsx
 const FILE_SIZE = 1024; // 1KB
