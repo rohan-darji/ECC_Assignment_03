@@ -251,7 +251,7 @@ CMD ["node", "client.js", "server", "8090"]
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_02.png)
 As we can see the images of both Server and Client have been created in the docker desktop using the commands as mentioned in the assignment.
 
-## Next is cretaing the container and running on docker
+## Next is creating the container and running on docker
 
 ### server run command
 
