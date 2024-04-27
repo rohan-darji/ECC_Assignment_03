@@ -343,7 +343,7 @@ networks:
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_13.png)
 
-### Output file `random_sentence.txt` sent from server to client stored in clientvol
+### Output file `random_file.txt` sent from server to client stored in clientvol
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_14.png)
 
