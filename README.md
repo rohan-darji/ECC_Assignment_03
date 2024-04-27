@@ -55,15 +55,6 @@ const crypto = require("crypto");
 const HOST = process.argv[2] || "localhost";
 const PORT = process.argv[3] || 8090;
 
-const randomSentences = [
-  // around 20 random sentences
-];
-
-const getRandomSentence = () => {
-  const randomIndex = Math.floor(Math.random() * randomSentences.length);
-  return randomSentences[randomIndex];
-};
-
 
 const FILE_SIZE = 1024; // 1KB
 
@@ -72,32 +63,28 @@ const generateRandomData = (length) => {
   return crypto.randomBytes(length);
 };
 
-// const randomData = generateRandomData(FILE_SIZE)
-
+const randomData = generateRandomData(FILE_SIZE)
 
 
 // Create a TCP server
 const server = net.createServer((socket) => {
   console.log(`Client connected from ${socket.remoteAddress}:${socket.remotePort}`);
 
-  const randomSentence = getRandomSentence();
-  const randomData = Buffer.from(randomSentence);
-
   // Calculate checksum of random data
   const checksum = crypto.createHash("md5").update(randomData).digest("hex");
 
   // Write random data to file
-  fs.writeFile("/app/serverdata/random_sentence.txt", randomData, (err) => {
+  fs.writeFile("/app/serverdata/random_file.txt", randomData, (err) => {
     if (err) {
-      console.error("Error writing file:", err);
+      console.error("Error while writing the file:", err);
       socket.end();
     } else {
-      console.log("Random data written to random_file.txt");
+      console.log("Random data has been written to random_file.txt");
 
       // Send file content to client
-      fs.readFile("/app/serverdata/random_sentence.txt", (err, fileData) => {
+      fs.readFile("/app/serverdata/random_file.txt", (err, fileData) => {
         if (err) {
-          console.error("Error reading file:", err);
+          console.error("Error reading the file:", err);
           socket.end();
         } else {
           socket.write(fileData);
@@ -149,26 +136,25 @@ clientSocket.connect(PORT, HOST, () => {
   console.log(`Connected to the server on port ${PORT}`);
 
 
-  clientSocket.write("Hello server, please send me the randomly generated file.");
+  clientSocket.write("Hello Server!");
 });
 
 
 clientSocket.on("data", (data) => {
-  console.log("Received file data:", data.toString());
 
   // Calculate checksum of received data
   const checksum = crypto.createHash("md5").update(data).digest("hex");
 
-  fs.writeFileSync("/app/clientdata/random_sentence.txt", data);
-  console.log(`Received file with checksum: ${checksum}`);
+  fs.writeFileSync("/app/clientdata/random_file.txt", data);
+  console.log(`Received file from server with checksum: ${checksum}`);
 
-  clientSocket.write("Thank you for the file!");
+  clientSocket.write("File received. Thank You!");
 
   // Close the connection after a delay
   setTimeout(() => {
-    console.log("Closing the connection after 2 minutes");
+    console.log("Connection closed after timeout!!");
     clientSocket.end();
-  }, 120000);
+  }, 240000);
 });
 
 // Handle end of connection
@@ -187,7 +173,7 @@ clientSocket.on("error", (err) => {
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/05.png)
 
-### `random_sentence.txt` file which the client has received from the server
+### `random_file.txt` file which the client has received from the server
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/06.png)
 - From the above image we can verify that the code is working properly and the client is able to receive the file sent from the server.
@@ -270,7 +256,6 @@ As we can see the containers of server and client have been created.
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_04.png)
 - From the logs, we can see that the file was generated and sent to the client.
-- For convenience purpose I have used the randomSentence array to send random sentence in the text file to the client.
 
 ### Logs of client
 
@@ -282,25 +267,13 @@ As we can see the containers of server and client have been created.
 ### `servervol`
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_06.png)
-Here, we can see that the output file was stored in the servervol and the `random_sentence.txt` is also visible.
+Here, we can see that the output file was stored in the servervol and the `random_file.txt` is also visible.
 
 ### `clientvol`
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_07.png)
-We can also see the same random sentence stored in the clientvol which is received from the server.
+We can also see the same random file data stored in the clientvol which is received from the server.
 
-#### To ease the verify process of the output file sent from server to client, I used the random sentence instead of the random data of 1kb. But we can also perform the same transfer of file from server to client using the random data of 1kd by using the following function in the `server.js`.
-
-```jsx
-const FILE_SIZE = 1024; // 1KB
-
-// Function to generate random data of specified length
-const generateRandomData = (length) => {
-  return crypto.randomBytes(length);
-};
-
-const randomData = generateRandomData(FILE_SIZE)
-```
 
 #### Now to confirm both the containers are running on the same network i.e., `rohan`, we use the command `docker inspect rohan`
 
@@ -366,7 +339,7 @@ networks:
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_12.png)
 
-### Output file `random_sentence.txt` which was sent from server to client stored in servervol
+### Output file `random_file.txt` which was sent from server to client stored in servervol
 
 ![Untitled](https://github.com/rohan-darji/ECC_Assignment_03/blob/main/Images/docker_13.png)
 
