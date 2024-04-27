@@ -14,26 +14,25 @@ clientSocket.connect(PORT, HOST, () => {
   console.log(`Connected to the server on port ${PORT}`);
 
 
-  clientSocket.write("Hello server, please send me the randomly generated file.");
+  clientSocket.write("Hello Server!");
 });
 
 
 clientSocket.on("data", (data) => {
-  console.log("Received file data:", data.toString());
 
   // Calculate checksum of received data
   const checksum = crypto.createHash("md5").update(data).digest("hex");
 
-  fs.writeFileSync("/app/clientdata/random_sentence.txt", data);
-  console.log(`Received file with checksum: ${checksum}`);
+  fs.writeFileSync("/app/clientdata/random_file.txt", data);
+  console.log(`Received file from server with checksum: ${checksum}`);
 
-  clientSocket.write("Thank you for the file!");
+  clientSocket.write("File received. Thank You!");
 
   // Close the connection after a delay
   setTimeout(() => {
-    console.log("Closing the connection after 2 minutes");
+    console.log("Connection closed after timeout!!");
     clientSocket.end();
-  }, 120000);
+  }, 240000);
 });
 
 // Handle end of connection
